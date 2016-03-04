@@ -4,9 +4,22 @@ data_jg14987 = load('jg14987.train');
 features_rg14820 = horzcat(data_rg14820(:,3), data_rg14820(:,5));
 features_jg14987 = horzcat(data_jg14987(:,4), data_jg14987(:,5));
 
+C_rg = [ 3, 4; 3, 4  ; 3, 4];
+C_jg = [ 3, 3 ; 3, 4 ; 7, 5;];
+
+
 rng(1); % For reproducibility
+
+% Non optimal version
+%[idx_rg14820,C_rg14820] = kmeans(features_rg14820, 3,  'Start' , C_rg);
 [idx_rg14820,C_rg14820] = kmeans(features_rg14820, 3);
+
 rng(1); % For reproducibility
+
+
+%TODO , modify C_jg until we get an non optimal cluserting
+%[idx_jg14987,C_jg14987] = kmeans(features_jg14987, 3, 'Start' , C_jg);
+
 [idx_jg14987,C_jg14987] = kmeans(features_jg14987, 3);
 
 figure;
