@@ -16,8 +16,15 @@ plot(features_rg14820(idx_rg14820==1,1),features_rg14820(idx_rg14820==1,2),'r.',
 plot(features_rg14820(idx_rg14820==2,1),features_rg14820(idx_rg14820==2,2),'b.','MarkerSize',12)
 plot(features_rg14820(idx_rg14820==3,1),features_rg14820(idx_rg14820==3,2),'g.','MarkerSize',12)
 plot(C_rg14820(:,1),C_rg14820(:,2),'kx','MarkerSize',15,'LineWidth',3)
+
+%Plot decision boundary
+voronoi(C_rg14820(:,1),C_rg14820(:,2));
+
 legend('Cluster 1','Cluster 2','Cluster 3','Centroids','Location','NW')
 title 'Cluster Assignments - rg14820'
+
+
+
 hold off
 
 subplot(2,1,2);
@@ -26,6 +33,10 @@ plot(features_jg14987(idx_jg14987==1,1),features_jg14987(idx_jg14987==1,2),'r.',
 plot(features_jg14987(idx_jg14987==2,1),features_jg14987(idx_jg14987==2,2),'b.','MarkerSize',12)
 plot(features_jg14987(idx_jg14987==3,1),features_jg14987(idx_jg14987==3,2),'g.','MarkerSize',12)
 plot(C_jg14987(:,1),C_jg14987(:,2),'kx','MarkerSize',15,'LineWidth',3)
+
+%Plot decision boundary
+voronoi(C_jg14987(:,1),C_jg14987(:,2));
+
 legend('Cluster 1','Cluster 2','Cluster 3','Centroids','Location','NW')
 title 'Cluster Assignments - jg14987'
 hold off
