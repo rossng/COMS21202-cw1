@@ -22,10 +22,20 @@ rng(1); % For reproducibility
 
 [idx_jg14987,C_jg14987] = kmeans(features_jg14987, 3);
 
+
+class_1_rg = [features_rg14820(idx_rg14820==1,1), features_rg14820(idx_rg14820==1,2)];
+class_2_rg = [features_rg14820(idx_rg14820==2,1), features_rg14820(idx_rg14820==2,2)];
+class_3_rg = [features_rg14820(idx_rg14820==3,1), features_rg14820(idx_rg14820==3,2)];
+
+class_1_jg = [features_jg14987(idx_jg14987==1,1), features_jg14987(idx_jg14987==1,2)];
+class_2_jg = [features_jg14987(idx_jg14987==2,1), features_jg14987(idx_jg14987==2,2)];
+class_3_jg = [features_jg14987(idx_jg14987==3,1), features_jg14987(idx_jg14987==3,2)];
+
+
 figure;
 subplot(2,1,1);
 hold on
-plot(features_rg14820(idx_rg14820==1,1),features_rg14820(idx_rg14820==1,2),'r.','MarkerSize',12)
+plot(features_rg14820(idx_rg14820==1,1), features_rg14820(idx_rg14820==1,2) ,'r.','MarkerSize',12)
 plot(features_rg14820(idx_rg14820==2,1),features_rg14820(idx_rg14820==2,2),'b.','MarkerSize',12)
 plot(features_rg14820(idx_rg14820==3,1),features_rg14820(idx_rg14820==3,2),'g.','MarkerSize',12)
 plot(C_rg14820(:,1),C_rg14820(:,2),'kx','MarkerSize',15,'LineWidth',3)
