@@ -28,16 +28,3 @@ class_3_rg = [features_rg14820(idx_rg14820==3,1), features_rg14820(idx_rg14820==
 class_1_jg = [features_jg14987(idx_jg14987==1,1), features_jg14987(idx_jg14987==1,2)];
 class_2_jg = [features_jg14987(idx_jg14987==2,1), features_jg14987(idx_jg14987==2,2)];
 class_3_jg = [features_jg14987(idx_jg14987==3,1), features_jg14987(idx_jg14987==3,2)];
-
-%%% TODO: Implement this for q4
-
-% Some starting centroid locations for the kmeans algorithm
-%C_rg = [ 3,4 ; 3,4 ; 3,4 ];
-%C_jg = [ 3,3 ; 3,4 ; 7,5 ];
-
-% Non optimal version
-%[idx_rg14820,C_rg14820] = kmeans(features_rg14820, 3,  'Start' , C_rg);
-
-
-%TODO , modify C_jg until we get an non optimal cluserting
-%[idx_jg14987,C_jg14987] = kmeans(features_jg14987, 3, 'Start' , C_jg);
