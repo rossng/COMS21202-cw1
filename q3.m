@@ -3,50 +3,46 @@
 
 clearvars();
 
-% Obtain the cluster centroids: centroids_jg14987 and centroids_rg14820
-cluster_training_data();
+%% Load the training and test datasets
+% Load the 'interesting' features from each training dataset
+features_rg = loader.load_columns('rg14820.train', [3 5]);
+features_jg = loader.load_columns('jg14987.train', [4 5]);
+% Load the 'interesting' features from each test dataset
+features_test_rg = loader.load_columns('rg14820.test', [3 5]);
+features_test_jg = loader.load_columns('jg14987.test', [4 5]);
 
-% Load the test data and extract the useful columns
-test_data_jg14987 = load('jg14987.test');
-test_data_rg14820 = load('rg14820.test');
+%% Cluster the training dataset
+% Cluster both sets of training data into three groups
+[idx_rg, centroids_rg] = loader.cluster_data(features_rg, 3);
+[idx_jg, centroids_jg] = loader.cluster_data(features_jg, 3);
 
-features_test_jg14987 = horzcat(test_data_jg14987(:,4), test_data_jg14987(:,5));
-features_test_rg14820 = horzcat(test_data_rg14820(:,3), test_data_rg14820(:,5));
-
-
+%% Determine the nearest-neighbour centroids for each item of test data
 % Calculate the euclidean distance of each item of test data from each
 % centroid
-distances_jg14987 = pdist2(centroids_jg14987, features_test_jg14987, 'euclidean');
-distances_rg14820 = pdist2(centroids_rg14820, features_test_rg14820, 'euclidean');
+dists_jg = pdist2(centroids_jg, features_test_jg, 'euclidean');
+dists_rg = pdist2(centroids_rg, features_test_rg, 'euclidean');
 
 % Find the minimum distance for each data item to get the index of its
 % nearest centroid - i.e. the class of each data item
-[~, nearest_centroid_idx_jg] = min(distances_jg14987, [], 1);
-[~, nearest_centroid_idx_rg] = min(distances_rg14820, [], 1);
+[~, idx_jg_test] = min(dists_jg, [], 1);
+[~, idx_rg_test] = min(dists_rg, [], 1);
 
-% Use the nearest centroid indices to separate the test data into classes
-class_1_jg_test = features_test_jg14987(nearest_centroid_idx_jg(end,:) == 1, :);
-class_2_jg_test = features_test_jg14987(nearest_centroid_idx_jg(end,:) == 2, :);
-class_3_jg_test = features_test_jg14987(nearest_centroid_idx_jg(end,:) == 3, :);
-
-class_1_rg_test = features_test_rg14820(nearest_centroid_idx_rg(end,:) == 1, :);
-class_2_rg_test = features_test_rg14820(nearest_centroid_idx_rg(end,:) == 2, :);
-class_3_rg_test = features_test_rg14820(nearest_centroid_idx_rg(end,:) == 3, :);
-
-
-% Now plot the results of the clustering
+%% Now plot the test data classified by nearest-neighbour centroid
 figure();
 
 subplot(2,1,2);
 hold on
 
-plot( class_1_jg_test(:,1), class_1_jg_test(:,2), 'rx' ...
+plot( features_test_jg(idx_jg_test==1,1), features_test_jg(idx_jg_test==1,2) ...
+    , 'rx' ...
     , 'MarkerSize',12 ...
 );
-plot( class_2_jg_test(:,1), class_2_jg_test(:,2), 'bx' ...
+plot( features_test_jg(idx_jg_test==2,1), features_test_jg(idx_jg_test==2,2) ...
+    , 'bx' ...
     , 'MarkerSize',12 ...
 );
-plot( class_3_jg_test(:,1), class_3_jg_test(:,2), 'gx' ...
+plot( features_test_jg(idx_jg_test==3,1), features_test_jg(idx_jg_test==3,2) ...
+    , 'gx' ...
     , 'MarkerSize',12 ...
 );
 
@@ -56,13 +52,16 @@ hold off
 subplot(2,1,1);
 hold on
 
-plot( class_1_rg_test(:,1), class_1_rg_test(:,2), 'rx' ...
+plot( features_test_rg(idx_rg_test==1,1), features_test_rg(idx_rg_test==1,2) ...
+    , 'rx' ...
     , 'MarkerSize',12 ...
 );
-plot( class_2_rg_test(:,1), class_2_rg_test(:,2), 'bx' ...
+plot( features_test_rg(idx_rg_test==2,1), features_test_rg(idx_rg_test==2,2) ...
+    , 'bx' ...
     , 'MarkerSize',12 ...
 );
-plot( class_3_rg_test(:,1), class_3_rg_test(:,2), 'gx' ...
+plot( features_test_rg(idx_rg_test==3,1), features_test_rg(idx_rg_test==3,2) ...
+    , 'gx' ...
     , 'MarkerSize',12 ...
 );
 
