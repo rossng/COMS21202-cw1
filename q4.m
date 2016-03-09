@@ -11,7 +11,7 @@ features_jg = loader.load_columns('jg14987.train', [4 5]);
 
 % Define some (bad) initial centroid locations for the kmeans algorithm
 initial_centroids_rg = [ 3,4 ; 3,4 ; 3,4 ];
-initial_centroids_jg = [ 8,5 ; 8,5 ; 8,5 ];
+initial_centroids_jg = [ 8,5 ; 8,5 ; 8,5 ]; %%% TODO: find non-optimal clustering
 
 % Cluster the two sets of training data using the bad initial centroids
 [idx_rg, centroids_rg] = loader.cluster_data(features_rg, 3 ...
