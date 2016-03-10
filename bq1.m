@@ -31,58 +31,64 @@ cov_rg_2 =  cov( features_rg(idx_rg==2,:) );
 mean_rg_3 = mean( features_rg(idx_rg==3,:) );
 cov_rg_3 =  cov( features_rg(idx_rg==3,:) );
 
-%% 
-% Create a fine mesh over which we can evaluate the probability density
+%% Calculate boundary probability densities
+
+% We want to draw a contour delineating the area which contains 95% of the 
+% probability mass of each class
+
+% 1) First, we find (arbitrary) points which have squared mahalanobis
+% distance 6 from the centre of each class. (The area with 95% probability
+% mass contains all points with mahalanobis distance <= 6)
+boundary_point_jg_1 = find_point_at_mahal_dist(6, mean_jg_1, cov_jg_1);
+boundary_point_jg_2 = find_point_at_mahal_dist(6, mean_jg_2, cov_jg_2);
+boundary_point_jg_3 = find_point_at_mahal_dist(6, mean_jg_3, cov_jg_3);
+
+boundary_point_rg_1 = find_point_at_mahal_dist(6, mean_rg_1, cov_rg_1);
+boundary_point_rg_2 = find_point_at_mahal_dist(6, mean_rg_2, cov_rg_2);
+boundary_point_rg_3 = find_point_at_mahal_dist(6, mean_rg_3, cov_rg_3);
+
+% 2) We then calculate the probability density of the bivariate distribution
+% at each of these points.
+boundary_pd_jg_1 = mvnpdf(boundary_point_jg_1, mean_jg_1, cov_jg_1);
+boundary_pd_jg_2 = mvnpdf(boundary_point_jg_2, mean_jg_2, cov_jg_2);
+boundary_pd_jg_3 = mvnpdf(boundary_point_jg_3, mean_jg_3, cov_jg_3);
+
+boundary_pd_rg_1 = mvnpdf(boundary_point_rg_1, mean_rg_1, cov_rg_1);
+boundary_pd_rg_2 = mvnpdf(boundary_point_rg_2, mean_rg_2, cov_rg_2);
+boundary_pd_rg_3 = mvnpdf(boundary_point_rg_3, mean_rg_3, cov_rg_3);
+
+%% Calculate probability density meshes for each class
+
+% Create a mesh over which we can evaluate the probability densities of
+% each class
 step = 0.05;
 [x, y] = meshgrid( -2:step:12, -2:step:12 );
 [r, c] = size(x);
 
 mvnpdf_sampling_mesh = [x(:) y(:)];
 
-% Use the inferred means and covariances of each cluster to determine the
-% probability density of the cluster at every point in the sampling mesh
+% Calculate the probability density across the entire sampling mesh
+
+% 1) Use mvnpdf to calculate the probability densities, producing 
+% single-col outputs
 pd_jg_1 = mvnpdf(mvnpdf_sampling_mesh, mean_jg_1, cov_jg_1);
 pd_jg_2 = mvnpdf(mvnpdf_sampling_mesh, mean_jg_2, cov_jg_2);
 pd_jg_3 = mvnpdf(mvnpdf_sampling_mesh, mean_jg_3, cov_jg_3);
-
-% Reshape the single-column output from mvnpdf into a matrix of probability
-% densities
-pd_jg_1 = reshape(pd_jg_1, r, c);
-pd_jg_2 = reshape(pd_jg_2, r, c);
-pd_jg_3 = reshape(pd_jg_3, r, c);
-
-% We want to draw a contour containing 95% of the probability mass of the
-% class. First, we determine the probability density within which 95% of
-% the mass exists.
-
-boundary_point_jg_1 = find_point_at_mahal_dist(6, mean_jg_1, cov_jg_1);
-boundary_point_jg_2 = find_point_at_mahal_dist(6, mean_jg_2, cov_jg_2);
-boundary_point_jg_3 = find_point_at_mahal_dist(6, mean_jg_3, cov_jg_3);
-
-boundary_pd_jg_1 = mvnpdf(boundary_point_jg_1, mean_jg_1, cov_jg_1);
-boundary_pd_jg_2 = mvnpdf(boundary_point_jg_2, mean_jg_2, cov_jg_2);
-boundary_pd_jg_3 = mvnpdf(boundary_point_jg_3, mean_jg_3, cov_jg_3);
-
-
-%% Repeat the same process for the rg data
 
 pd_rg_1 = mvnpdf(mvnpdf_sampling_mesh, mean_rg_1, cov_rg_1);
 pd_rg_2 = mvnpdf(mvnpdf_sampling_mesh, mean_rg_2, cov_rg_2);
 pd_rg_3 = mvnpdf(mvnpdf_sampling_mesh, mean_rg_3, cov_rg_3);
 
+% 2) Reshape the single-column outputs from mvnpdf into matrices
+pd_jg_1 = reshape(pd_jg_1, r, c);
+pd_jg_2 = reshape(pd_jg_2, r, c);
+pd_jg_3 = reshape(pd_jg_3, r, c);
+
 pd_rg_1 = reshape(pd_rg_1, r, c);
 pd_rg_2 = reshape(pd_rg_2, r, c);
 pd_rg_3 = reshape(pd_rg_3, r, c);
 
-boundary_point_rg_1 = find_point_at_mahal_dist(6, mean_rg_1, cov_rg_1);
-boundary_point_rg_2 = find_point_at_mahal_dist(6, mean_rg_2, cov_rg_2);
-boundary_point_rg_3 = find_point_at_mahal_dist(6, mean_rg_3, cov_rg_3);
-
-boundary_pd_rg_1 = mvnpdf(boundary_point_rg_1, mean_rg_1, cov_rg_1);
-boundary_pd_rg_2 = mvnpdf(boundary_point_rg_2, mean_rg_2, cov_rg_2);
-boundary_pd_rg_3 = mvnpdf(boundary_point_rg_3, mean_rg_3, cov_rg_3);
-
-%% Plot the 95% contour for each class
+%% Draw contours at the calculated 95% boundary densities using the sampling meshes
 
 figure();
 
