@@ -30,6 +30,8 @@ dists_rg = pdist2(centroids_rg, features_test_rg, 'euclidean');
 %% Now plot the test data classified by nearest-neighbour centroid
 figure();
 
+plot_classes();
+
 subplot(2,1,2);
 hold on
 
@@ -46,7 +48,7 @@ plot( features_test_jg(idx_jg_test==3,1), features_test_jg(idx_jg_test==3,2) ...
     , 'MarkerSize',12 ...
 );
 
-title('Cluster Assignments - jg14987.test');
+title('Nearest-neighbour Classification - jg14987.test');
 
 hold off
 
@@ -67,6 +69,6 @@ plot( features_test_rg(idx_rg_test==3,1), features_test_rg(idx_rg_test==3,2) ...
     , 'MarkerSize',12 ...
 );
 
-title('Cluster Assignments - rg14820.test');
+title('Nearest-neighbour Classification - rg14820.test');
 
 hold off

@@ -39,13 +39,16 @@ cov_rg_3 =  cov( features_rg(idx_rg==3,:) );
 % 1) First, we find (arbitrary) points which have squared mahalanobis
 % distance 6 from the centre of each class. (The area with 95% probability
 % mass contains all points with mahalanobis distance <= 6)
-boundary_point_jg_1 = find_point_at_mahal_dist(6, mean_jg_1, cov_jg_1);
-boundary_point_jg_2 = find_point_at_mahal_dist(6, mean_jg_2, cov_jg_2);
-boundary_point_jg_3 = find_point_at_mahal_dist(6, mean_jg_3, cov_jg_3);
 
-boundary_point_rg_1 = find_point_at_mahal_dist(6, mean_rg_1, cov_rg_1);
-boundary_point_rg_2 = find_point_at_mahal_dist(6, mean_rg_2, cov_rg_2);
-boundary_point_rg_3 = find_point_at_mahal_dist(6, mean_rg_3, cov_rg_3);
+mahal_dist = chi2inv(0.95, 2);
+
+boundary_point_jg_1 = find_point_at_mahal_dist(mahal_dist, mean_jg_1, cov_jg_1);
+boundary_point_jg_2 = find_point_at_mahal_dist(mahal_dist, mean_jg_2, cov_jg_2);
+boundary_point_jg_3 = find_point_at_mahal_dist(mahal_dist, mean_jg_3, cov_jg_3);
+
+boundary_point_rg_1 = find_point_at_mahal_dist(mahal_dist, mean_rg_1, cov_rg_1);
+boundary_point_rg_2 = find_point_at_mahal_dist(mahal_dist, mean_rg_2, cov_rg_2);
+boundary_point_rg_3 = find_point_at_mahal_dist(mahal_dist, mean_rg_3, cov_rg_3);
 
 % 2) We then calculate the probability density of the bivariate distribution
 % at each of these points.
@@ -92,13 +95,15 @@ pd_rg_3 = reshape(pd_rg_3, r, c);
 
 figure();
 
+plot_classes();
+
 subplot(2,1,1);
 hold on
 contour( x, y, pd_jg_1, [boundary_pd_jg_1 boundary_pd_jg_1] );
 contour( x, y, pd_jg_2, [boundary_pd_jg_2 boundary_pd_jg_2] );
 contour( x, y, pd_jg_3, [boundary_pd_jg_3 boundary_pd_jg_3] );
 
-title('95% boundaries - jg14987');
+title('95% Boundaries using Bivariate Normal Distributions - jg14987');
 hold off
 
 subplot(2,1,2);
@@ -107,6 +112,6 @@ contour( x, y, pd_rg_1, [boundary_pd_rg_1 boundary_pd_rg_1] );
 contour( x, y, pd_rg_2, [boundary_pd_rg_2 boundary_pd_rg_2] );
 contour( x, y, pd_rg_3, [boundary_pd_rg_3 boundary_pd_rg_3] );
 
-title('95% boundaries - rg14820');
+title('95% Boundaries using Bivariate Normal Distributions - rg14820');
 hold off
 
