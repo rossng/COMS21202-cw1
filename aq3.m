@@ -46,6 +46,8 @@ plot( features_test_jg(idx_jg_test==3,1), features_test_jg(idx_jg_test==3,2) ...
     , 'MarkerSize',12 ...
 );
 
+title('Cluster Assignments - jg14987.test');
+
 hold off
 
 
@@ -64,5 +66,7 @@ plot( features_test_rg(idx_rg_test==3,1), features_test_rg(idx_rg_test==3,2) ...
     , 'gx' ...
     , 'MarkerSize',12 ...
 );
+
+title('Cluster Assignments - rg14820.test');
 
 hold off

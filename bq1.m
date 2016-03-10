@@ -54,43 +54,53 @@ pd_jg_3 = reshape(pd_jg_3, r, c);
 % We want to draw a contour containing 95% of the probability mass of the
 % class. First, we determine the probability density within which 95% of
 % the mass exists.
-pd_boundary_jg_1 = calc_level(mean_rg_1, cov_rg_1);
-pd_boundary_jg_2 = calc_level(mean_rg_2, cov_rg_2);
-pd_boundary_jg_3 = calc_level(mean_rg_3, cov_rg_3);
+
+boundary_point_jg_1 = find_point_at_mahal_dist(6, mean_jg_1, cov_jg_1);
+boundary_point_jg_2 = find_point_at_mahal_dist(6, mean_jg_2, cov_jg_2);
+boundary_point_jg_3 = find_point_at_mahal_dist(6, mean_jg_3, cov_jg_3);
+
+boundary_pd_jg_1 = mvnpdf(boundary_point_jg_1, mean_jg_1, cov_jg_1);
+boundary_pd_jg_2 = mvnpdf(boundary_point_jg_2, mean_jg_2, cov_jg_2);
+boundary_pd_jg_3 = mvnpdf(boundary_point_jg_3, mean_jg_3, cov_jg_3);
 
 
-%% Repeated again for RG data
+%% Repeat the same process for the rg data
 
-p_rg_1 = mvnpdf(mvnpdf_sampling_mesh, mean_rg_1 , cov_rg_1);
-p_rg_2 = mvnpdf(mvnpdf_sampling_mesh, mean_rg_2 , cov_rg_2);
-p_rg_3 = mvnpdf(mvnpdf_sampling_mesh, mean_rg_3 , cov_rg_3);
+pd_rg_1 = mvnpdf(mvnpdf_sampling_mesh, mean_rg_1, cov_rg_1);
+pd_rg_2 = mvnpdf(mvnpdf_sampling_mesh, mean_rg_2, cov_rg_2);
+pd_rg_3 = mvnpdf(mvnpdf_sampling_mesh, mean_rg_3, cov_rg_3);
 
+pd_rg_1 = reshape(pd_rg_1, r, c);
+pd_rg_2 = reshape(pd_rg_2, r, c);
+pd_rg_3 = reshape(pd_rg_3, r, c);
 
-p_rg_1 = reshape(p_rg_1, r, c);
-p_rg_2 = reshape(p_rg_2, r, c);
-p_rg_3 = reshape(p_rg_3, r, c);
+boundary_point_rg_1 = find_point_at_mahal_dist(6, mean_rg_1, cov_rg_1);
+boundary_point_rg_2 = find_point_at_mahal_dist(6, mean_rg_2, cov_rg_2);
+boundary_point_rg_3 = find_point_at_mahal_dist(6, mean_rg_3, cov_rg_3);
 
-% 
-l_rg_1 = calc_level(mean_rg_1 , cov_rg_1);
-l_rg_2 = calc_level(mean_rg_2 , cov_rg_2);
-l_rg_3 = calc_level(mean_rg_3 , cov_rg_3);
-
+boundary_pd_rg_1 = mvnpdf(boundary_point_rg_1, mean_rg_1, cov_rg_1);
+boundary_pd_rg_2 = mvnpdf(boundary_point_rg_2, mean_rg_2, cov_rg_2);
+boundary_pd_rg_3 = mvnpdf(boundary_point_rg_3, mean_rg_3, cov_rg_3);
 
 %% Plot the 95% contour for each class
 
 figure();
 
-subplot(2,1,2);
-hold on
-contour( x, y, pd_jg_1, [pd_boundary_jg_1 pd_boundary_jg_1] );
-contour( x, y, pd_jg_2, [pd_boundary_jg_2 pd_boundary_jg_2] );
-contour( x, y, pd_jg_3, [pd_boundary_jg_3 pd_boundary_jg_3] );
-hold off
-
 subplot(2,1,1);
 hold on
-contour( x , y, p_rg_1, [l_rg_1 l_rg_1] );
-contour( x , y, p_rg_2, [l_rg_2 l_rg_2] );
-contour( x , y, p_rg_3, [l_rg_3 l_rg_3] );
+contour( x, y, pd_jg_1, [boundary_pd_jg_1 boundary_pd_jg_1] );
+contour( x, y, pd_jg_2, [boundary_pd_jg_2 boundary_pd_jg_2] );
+contour( x, y, pd_jg_3, [boundary_pd_jg_3 boundary_pd_jg_3] );
+
+title('95% boundaries - jg14987');
+hold off
+
+subplot(2,1,2);
+hold on
+contour( x, y, pd_rg_1, [boundary_pd_rg_1 boundary_pd_rg_1] );
+contour( x, y, pd_rg_2, [boundary_pd_rg_2 boundary_pd_rg_2] );
+contour( x, y, pd_rg_3, [boundary_pd_rg_3 boundary_pd_rg_3] );
+
+title('95% boundaries - rg14820');
 hold off
 
