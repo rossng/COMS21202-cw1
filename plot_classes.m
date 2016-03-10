@@ -1,5 +1,6 @@
-
-
+%% CW1b
+%  Q2)
+%  section: plot data as in CW1b Q2)
 
 % Load the 'interesting' features from each training dataset
 features_rg = loader.load_columns('rg14820.train', [3 5]);
@@ -13,9 +14,9 @@ features_jg = loader.load_columns('jg14987.train', [4 5]);
 subplot(2,1,1);
 hold on
 
-plot( features_rg(idx_rg==1,1), features_rg(idx_rg==1,2), 'r.', 'MarkerSize',12 );
-plot( features_rg(idx_rg==2,1), features_rg(idx_rg==2,2), 'b.', 'MarkerSize',12 );
-plot( features_rg(idx_rg==3,1), features_rg(idx_rg==3,2), 'g.', 'MarkerSize',12 );
+plot( features_rg(idx_rg==1,1), features_rg(idx_rg==1,2), 'r.', 'MarkerSize', 12 );
+plot( features_rg(idx_rg==2,1), features_rg(idx_rg==2,2), 'b.', 'MarkerSize', 12 );
+plot( features_rg(idx_rg==3,1), features_rg(idx_rg==3,2), 'g.', 'MarkerSize', 12 );
 
 plot( centroids_rg(:,1),centroids_rg(:,2), 'kx' ...
     , 'MarkerSize', 15 ...

@@ -1,5 +1,5 @@
 %% CW1b
-%  Q1)
+%  Q2)
 clearvars();
 
 %% Load the training and test datasets
@@ -88,25 +88,25 @@ pd_rg_1 = reshape(pd_rg_1, r, c);
 pd_rg_2 = reshape(pd_rg_2, r, c);
 pd_rg_3 = reshape(pd_rg_3, r, c);
 
+%% Calculate the likelihood ratios of the classes across the mesh
 
-%%Calc ratios
+% We calculate the likelihood ratio of each class against the largest of
+% the other two classes. The boundaries occur where the ratio is 1 
+% (i.e. 1:1) - but we compare against the max so that the boundaries are
+% occluded correctly
+likelihood_ratio_jg_1 = pd_jg_1 ./ max(pd_jg_2, pd_jg_3);
+likelihood_ratio_jg_2 = pd_jg_2 ./ max(pd_jg_1, pd_jg_3);
+likelihood_ratio_jg_3 = pd_jg_3 ./ max(pd_jg_1, pd_jg_2);
 
-LR_jg_1_2 = pd_jg_1./max(pd_jg_2, pd_jg_3);
-LR_jg_1_3 = pd_jg_1./max(pd_jg_3, pd_jg_2);
-LR_jg_2_3 = pd_jg_2./max(pd_jg_3, pd_jg_1);
+likelihood_ratio_rg_1 = pd_rg_1 ./ max(pd_rg_2,pd_rg_3);
+likelihood_ratio_rg_2 = pd_rg_2 ./ max(pd_rg_1,pd_rg_3);
+likelihood_ratio_rg_3 = pd_rg_3 ./ max(pd_rg_1,pd_rg_2);
 
-LR_rg_1_2 = pd_rg_1./max(pd_rg_2,pd_rg_3);
-LR_rg_1_3 = pd_rg_2./max(pd_rg_3,pd_rg_1);
-LR_rg_2_3 = pd_rg_3./max(pd_rg_2,pd_rg_1);
+%% Loader, cluster and plot the training data
+
+plot_classes();
 
 %% Draw contours at the calculated 95% boundary densities using the sampling meshes
-
-
-
-figure();
-
-plot_classes
-
 
 subplot(2,1,1);
 hold on
@@ -115,16 +115,13 @@ contour( x, y, pd_jg_1, [boundary_pd_jg_1 boundary_pd_jg_1] );
 contour( x, y, pd_jg_2, [boundary_pd_jg_2 boundary_pd_jg_2] );
 contour( x, y, pd_jg_3, [boundary_pd_jg_3 boundary_pd_jg_3] );
 
-title('95% boundaries - jg14987');
+contour( x, y, likelihood_ratio_jg_1, [1 1] );
+contour( x, y, likelihood_ratio_jg_2, [1 1] );
+contour( x, y, likelihood_ratio_jg_3, [1 1] );
 
-contour( x, y, LR_jg_1_2, [1 1] );
-contour( x, y, LR_jg_1_3, [1 1] );
-contour( x, y, LR_jg_2_3, [1 1] );
+title('Maximum-likelihood decision boundaries - jg14987');
 
 hold off
-
-
-
 
 subplot(2,1,2);
 hold on
@@ -132,12 +129,12 @@ contour( x, y, pd_rg_1, [boundary_pd_rg_1 boundary_pd_rg_1] );
 contour( x, y, pd_rg_2, [boundary_pd_rg_2 boundary_pd_rg_2] );
 contour( x, y, pd_rg_3, [boundary_pd_rg_3 boundary_pd_rg_3] );
 
-contour( x, y, LR_rg_1_2, [1 1] );
-contour( x, y, LR_rg_1_3, [1 1] );
-contour( x, y, LR_rg_2_3, [1 1] );
+contour( x, y, likelihood_ratio_rg_1, [1 1] );
+contour( x, y, likelihood_ratio_rg_2, [1 1] );
+contour( x, y, likelihood_ratio_rg_3, [1 1] );
 
+title('Maximum-likelihood decision boundaries - rg14820');
 
-title('95% boundaries - rg14820');
 hold off
 
 
