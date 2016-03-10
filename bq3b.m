@@ -13,8 +13,9 @@ features_jg = loader.load_columns('jg14987.train', [4 5]);
 [idx_jg, centroids_jg] = loader.cluster_data(features_jg, 3);
 
 %% Calculate the mean and covariances for the data in each class
+
 mean_jg_1 = mean( features_jg(idx_jg==1,:) );
-cov_jg_1 =  cov( features_jg(idx_jg==1,:) );
+cov_jg_1 =  cov( features_jg(idx_jg==1,:) ) * 4;
 
 mean_jg_2 = mean( features_jg(idx_jg==2,:) );
 cov_jg_2 =  cov( features_jg(idx_jg==2,:) );
@@ -23,7 +24,7 @@ mean_jg_3 = mean( features_jg(idx_jg==3,:) );
 cov_jg_3 =  cov( features_jg(idx_jg==3,:) );
 
 mean_rg_1 = mean( features_rg(idx_rg==1,:) );
-cov_rg_1 =  cov( features_rg(idx_rg==1,:) );
+cov_rg_1 =  cov( features_rg(idx_rg==1,:) ) * 4;
 
 mean_rg_2 = mean( features_rg(idx_rg==2,:) );
 cov_rg_2 =  cov( features_rg(idx_rg==2,:) );
@@ -106,7 +107,6 @@ LR_rg_2_3 = pd_rg_3./max(pd_rg_2,pd_rg_1);
 figure();
 
 plot_classes
-
 
 subplot(2,1,1);
 hold on
