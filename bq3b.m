@@ -104,8 +104,6 @@ LR_rg_2_3 = pd_rg_3./max(pd_rg_2,pd_rg_1);
 
 %% Draw contours at the calculated 95% boundary densities using the sampling meshes
 
-
-
 figure();
 
 plot_classes

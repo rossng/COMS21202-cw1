@@ -32,7 +32,7 @@ figure();
 
 plot_classes();
 
-subplot(2,1,2);
+subplot(1,2,2);
 hold on
 
 plot( features_test_jg(idx_jg_test==1,1), features_test_jg(idx_jg_test==1,2) ...
@@ -53,7 +53,7 @@ title('Nearest-neighbour Classification - jg14987.test');
 hold off
 
 
-subplot(2,1,1);
+subplot(1,2,1);
 hold on
 
 plot( features_test_rg(idx_rg_test==1,1), features_test_rg(idx_rg_test==1,2) ...

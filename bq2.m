@@ -110,7 +110,7 @@ plot_classes();
 
 %% Draw contours at the calculated 95% boundary densities using the sampling meshes
 
-subplot(2,1,1);
+subplot(1,2,1);
 hold on
 
 contour( x, y, pd_jg_1, [boundary_pd_jg_1 boundary_pd_jg_1] );
@@ -125,7 +125,7 @@ title('Maximum-likelihood decision boundaries - jg14987');
 
 hold off
 
-subplot(2,1,2);
+subplot(1,2,2);
 hold on
 contour( x, y, pd_rg_1, [boundary_pd_rg_1 boundary_pd_rg_1] );
 contour( x, y, pd_rg_2, [boundary_pd_rg_2 boundary_pd_rg_2] );

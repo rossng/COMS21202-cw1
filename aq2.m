@@ -15,7 +15,7 @@ features_jg = loader.load_columns('jg14987.train', [4 5]);
 figure();
 
 % Plot the clusters from rg14820.train with their centroids and voronoi tessellation
-subplot(2,1,1);
+subplot(1,2,1);
 hold on
 
 plot( features_rg(idx_rg==1,1), features_rg(idx_rg==1,2), 'r.', 'MarkerSize',12 );
@@ -36,7 +36,7 @@ hold off
 
 
 % Plot the clusters from jg14987.train with their centroids and voronoi tessellation
-subplot(2,1,2);
+subplot(1,2,2);
 hold on
 
 plot( features_jg(idx_jg==1,1), features_jg(idx_jg==1,2), 'r.', 'MarkerSize',12 );

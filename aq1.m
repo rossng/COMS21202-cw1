@@ -9,11 +9,11 @@ data_jg = load('jg14987.train');
 
 figure();
 
-subplot(2,1,1);
+subplot(1,2,1);
 plotmatrix(data_rg);
 title('rg14820.train')
 
-subplot(2,1,2);
+subplot(1,2,2);
 plotmatrix(data_jg);
 title('jg14987.train')
 
