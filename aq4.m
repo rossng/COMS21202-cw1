@@ -10,24 +10,32 @@ features_jg = loader.load_columns('jg14987.train', [4 5]);
 %% Perform non-optimal clustering on the datasets
 
 % Define some (bad) initial centroid locations for the kmeans algorithm
-initial_centroids_rg = [ 3,4 ; 3,4 ; 3,4 ];
-initial_centroids_jg = [ 8,5 ; 8,5 ; 8,5 ]; %%% TODO: find non-optimal clustering
+centroids_rg = [ 3,4 ; 3,4 ; 3,4 ];
+centroids_jg = [ 3,4; 3,6 ; 5,10 ]; %%% TODO: find non-optimal clustering
+
+% Generate random initial centroids - still fails to produce a non-optimal
+% clustering for jg, left in for reference
+% rng('shuffle');
+% centroids_jg = randi([0 10],3,2);
+% c = centroids_jg;
 
 % Cluster the two sets of training data using the bad initial centroids
-[idx_rg, centroids_rg] = loader.cluster_data(features_rg, 3 ...
-    , 'Start', initial_centroids_rg ...
-);
 
-[idx_jg, centroids_jg] = loader.cluster_data(features_jg, 3 ...
-    , 'Start' , initial_centroids_jg ...
-);
+for n = 0:0
+    [idx_rg, centroids_rg] = loader.cluster_data(features_rg, 3 ...
+        , 'Start', centroids_rg ...
+    );
 
+    [idx_jg, centroids_jg] = loader.cluster_data(features_jg, 3 ...
+        , 'Start', centroids_jg ...
+    );
+end
 %% Plot the results of the non-optimal clustering
 
 figure();
 
 % Plot the clusters from rg14820.train with their centroids and voronoi tessellation
-subplot(1,2,1);
+p1 = subplot(1,2,1);
 hold on
 
 plot( features_rg(idx_rg==1,1), features_rg(idx_rg==1,2), 'r.', 'MarkerSize',12 );
@@ -42,13 +50,13 @@ plot( centroids_rg(:,1),centroids_rg(:,2), 'kx' ...
 voronoi( centroids_rg(:,1), centroids_rg(:,2) );
 
 legend('Cluster 1', 'Cluster 2', 'Cluster 3', 'Centroids', 'Location', 'NW');
-title('Bad cluster Assignments - rg14820.train');
+title('Non-optimal Clustering- rg14820.train');
 
 hold off
 
 
 % Plot the clusters from jg14987.train with their centroids and voronoi tessellation
-subplot(1,2,2);
+p2 = subplot(1,2,2);
 hold on
 
 plot( features_jg(idx_jg==1,1), features_jg(idx_jg==1,2), 'r.', 'MarkerSize',12 );
@@ -63,6 +71,8 @@ plot( centroids_jg(:,1),centroids_jg(:,2), 'kx' ...
 voronoi( centroids_jg(:,1), centroids_jg(:,2) );
 
 legend('Cluster 1', 'Cluster 2', 'Cluster 3', 'Centroids', 'Location', 'NW');
-title('Bad cluster Assignments - jg14987.train');
+title('Optimal Clustering - jg14987.train');
 
 hold off
+
+axis([p1 p2], [0 10 0 10]);

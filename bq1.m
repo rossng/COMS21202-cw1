@@ -97,7 +97,7 @@ figure();
 
 plot_classes();
 
-subplot(1,2,1);
+p1 = subplot(1,2,1);
 hold on
 contour( x, y, pd_jg_1, [boundary_pd_jg_1 boundary_pd_jg_1] );
 contour( x, y, pd_jg_2, [boundary_pd_jg_2 boundary_pd_jg_2] );
@@ -106,7 +106,7 @@ contour( x, y, pd_jg_3, [boundary_pd_jg_3 boundary_pd_jg_3] );
 title('95% Boundaries using Bivariate Normal Distributions - jg14987');
 hold off
 
-subplot(1,2,2);
+p2 = subplot(1,2,2);
 hold on
 contour( x, y, pd_rg_1, [boundary_pd_rg_1 boundary_pd_rg_1] );
 contour( x, y, pd_rg_2, [boundary_pd_rg_2 boundary_pd_rg_2] );
@@ -115,3 +115,4 @@ contour( x, y, pd_rg_3, [boundary_pd_rg_3 boundary_pd_rg_3] );
 title('95% Boundaries using Bivariate Normal Distributions - rg14820');
 hold off
 
+axis([p1 p2], [0 10 0 10]);

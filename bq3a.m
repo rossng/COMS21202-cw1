@@ -14,25 +14,27 @@ features_jg = loader.load_columns('jg14987.train', [4 5]);
 
 %% Calculate the mean and covariances for the data in each class
 
+% In order to emulate nearest-centroid decision boundaries, we set the
+% covariance matrix for every class to the 2x2 identity matrix
 id = [1,0;0,1];
 
 mean_jg_1 = mean( features_jg(idx_jg==1,:) );
-cov_jg_1 =  ( id );
+cov_jg_1 = id;
 
 mean_jg_2 = mean( features_jg(idx_jg==2,:) );
-cov_jg_2 =  ( id );
+cov_jg_2 = id;
 
 mean_jg_3 = mean( features_jg(idx_jg==3,:) );
-cov_jg_3 =   id ;
+cov_jg_3 = id;
 
 mean_rg_1 = mean( features_rg(idx_rg==1,:) );
-cov_rg_1 =  ( id );
+cov_rg_1 = id;
 
 mean_rg_2 = mean( features_rg(idx_rg==2,:) );
-cov_rg_2 =  ( id );
+cov_rg_2 = id;
 
 mean_rg_3 = mean( features_rg(idx_rg==3,:) );
-cov_rg_3 =  ( id );
+cov_rg_3 = id;
 
 %% Calculate boundary probability densities
 
@@ -93,55 +95,54 @@ pd_rg_1 = reshape(pd_rg_1, r, c);
 pd_rg_2 = reshape(pd_rg_2, r, c);
 pd_rg_3 = reshape(pd_rg_3, r, c);
 
+%% Calculate the likelihood ratios of the classes across the mesh
 
-%%Calc ratios
+% We calculate the likelihood ratio of each class against the largest of
+% the other two classes. The boundaries occur where the ratio is 1 
+% (i.e. 1:1) - but we compare against the max so that the boundaries are
+% occluded correctly
 
-LR_jg_1_2 = pd_jg_1./max(pd_jg_2, pd_jg_3);
-LR_jg_1_3 = pd_jg_1./max(pd_jg_3, pd_jg_2);
-LR_jg_2_3 = pd_jg_2./max(pd_jg_3, pd_jg_1);
+likelihood_ratio_jg_1_2 = pd_jg_1 ./ max(pd_jg_2, pd_jg_3);
+likelihood_ratio_jg_1_3 = pd_jg_1 ./ max(pd_jg_3, pd_jg_2);
+likelihood_ratio_jg_2_3 = pd_jg_2 ./ max(pd_jg_3, pd_jg_1);
 
-LR_rg_1_2 = pd_rg_1./max(pd_rg_2,pd_rg_3);
-LR_rg_1_3 = pd_rg_2./max(pd_rg_3,pd_rg_1);
-LR_rg_2_3 = pd_rg_3./max(pd_rg_2,pd_rg_1);
+likelihood_ratio_rg_1_2 = pd_rg_1 ./ max(pd_rg_2,pd_rg_3);
+likelihood_ratio_rg_1_3 = pd_rg_2 ./ max(pd_rg_3,pd_rg_1);
+likelihood_ratio_rg_2_3 = pd_rg_3 ./ max(pd_rg_2,pd_rg_1);
+
+%% Loader, cluster and plot the training data
+
+figure();
+plot_classes();
 
 %% Draw contours at the calculated 95% boundary densities using the sampling meshes
 
-
-
-figure();
-
-plot_classes
-
-subplot(2,1,1);
+p1 = subplot(1,2,1);
 hold on
 
-contour( x, y, pd_jg_1, [boundary_pd_jg_1 boundary_pd_jg_1] );
-contour( x, y, pd_jg_2, [boundary_pd_jg_2 boundary_pd_jg_2] );
-contour( x, y, pd_jg_3, [boundary_pd_jg_3 boundary_pd_jg_3] );
+%contour( x, y, pd_jg_1, [boundary_pd_jg_1 boundary_pd_jg_1] );
+%contour( x, y, pd_jg_2, [boundary_pd_jg_2 boundary_pd_jg_2] );
+%contour( x, y, pd_jg_3, [boundary_pd_jg_3 boundary_pd_jg_3] );
 
-title('95% boundaries - jg14987');
+contour( x, y, likelihood_ratio_jg_1_2, [1 1] );
+contour( x, y, likelihood_ratio_jg_1_3, [1 1] );
+contour( x, y, likelihood_ratio_jg_2_3, [1 1] );
 
-contour( x, y, LR_jg_1_2, [1 1] );
-contour( x, y, LR_jg_1_3, [1 1] );
-contour( x, y, LR_jg_2_3, [1 1] );
-
+title('Emulated Nearest-Centroid Boundaries - jg14987');
 hold off
 
 
-
-
-subplot(2,1,2);
+p2 = subplot(1,2,2);
 hold on
-contour( x, y, pd_rg_1, [boundary_pd_rg_1 boundary_pd_rg_1] );
-contour( x, y, pd_rg_2, [boundary_pd_rg_2 boundary_pd_rg_2] );
-contour( x, y, pd_rg_3, [boundary_pd_rg_3 boundary_pd_rg_3] );
+%contour( x, y, pd_rg_1, [boundary_pd_rg_1 boundary_pd_rg_1] );
+%contour( x, y, pd_rg_2, [boundary_pd_rg_2 boundary_pd_rg_2] );
+%contour( x, y, pd_rg_3, [boundary_pd_rg_3 boundary_pd_rg_3] );
 
-contour( x, y, LR_rg_1_2, [1 1] );
-contour( x, y, LR_rg_1_3, [1 1] );
-contour( x, y, LR_rg_2_3, [1 1] );
+contour( x, y, likelihood_ratio_rg_1_2, [1 1] );
+contour( x, y, likelihood_ratio_rg_1_3, [1 1] );
+contour( x, y, likelihood_ratio_rg_2_3, [1 1] );
 
-
-title('95% boundaries - rg14820');
+title('Emulated Nearest-Centroid Boundaries - rg14820');
 hold off
 
-
+axis([p1 p2], [0 10 0 10]);

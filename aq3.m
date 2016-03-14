@@ -32,7 +32,7 @@ figure();
 
 plot_classes();
 
-subplot(1,2,2);
+p1 = subplot(1,2,2);
 hold on
 
 plot( features_test_jg(idx_jg_test==1,1), features_test_jg(idx_jg_test==1,2) ...
@@ -48,12 +48,12 @@ plot( features_test_jg(idx_jg_test==3,1), features_test_jg(idx_jg_test==3,2) ...
     , 'MarkerSize',12 ...
 );
 
-title('Nearest-neighbour Classification - jg14987.test');
+title('Nearest-centroid Classification - jg14987.test');
 
 hold off
 
 
-subplot(1,2,1);
+p2 = subplot(1,2,1);
 hold on
 
 plot( features_test_rg(idx_rg_test==1,1), features_test_rg(idx_rg_test==1,2) ...
@@ -69,6 +69,8 @@ plot( features_test_rg(idx_rg_test==3,1), features_test_rg(idx_rg_test==3,2) ...
     , 'MarkerSize',12 ...
 );
 
-title('Nearest-neighbour Classification - rg14820.test');
+title('Nearest-centroid Classification - rg14820.test');
 
 hold off
+
+axis([p1 p2], [0 10 0 10]);
